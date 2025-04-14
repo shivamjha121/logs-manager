@@ -11,14 +11,14 @@ This project provides a reusable logging middleware for Node.js applications usi
 
 ## Installation
 ```bash
-npm install logs-manager
+npm install @shivamjha1288/logs-manager
 ```
 
 ## Usage
 
 ### 1. Connect to MongoDB
 ```js
-import { connectMongoDB } from 'logs-manager';
+import { connectMongoDB } from '@shivamjha1288/logs-manager';
 
 await connectMongoDB('mongodb://localhost:27017/your-db');
 ```
@@ -26,7 +26,7 @@ await connectMongoDB('mongodb://localhost:27017/your-db');
 ### 2. Use Middleware in Express App
 ```js
 import express from 'express';
-import { apiRequestLogger } from 'logs-manager';
+import { apiRequestLogger } from '@shivamjha1288/logs-manager';
 
 const app = express();
 app.use(express.json());
@@ -35,7 +35,7 @@ app.use(apiRequestLogger('MyApp'));
 
 ### 3. Manually Log Data
 ```js
-import { logData } from 'logs-manager';
+import { logData } from '@shivamjha1288/logs-manager';
 
 await logData('MyApp', 'error', 'Something went wrong', {
   method: 'POST',
@@ -52,7 +52,7 @@ import {
     apiRequestLogger,
     connectMongoDB,
     logData,
-} from "logs-manager";
+} from "@shivamjha1288/logs-manager";
 import express from "express";
 
 const app = express();
