@@ -1,4 +1,3 @@
-import winston from "winston";
 import mongoose from "mongoose";
 
 const logSchema = new mongoose.Schema({
@@ -17,6 +16,7 @@ const logSchema = new mongoose.Schema({
 });
 
 const Log = mongoose.model("Log", logSchema);
+
 const connectMongoDB = async (mongoUrl) => {
     try {
         await mongoose.connect(mongoUrl, {
@@ -30,23 +30,7 @@ const connectMongoDB = async (mongoUrl) => {
     }
 };
 
-const createLogger = () => {
-    return winston.createLogger({
-        level: "info", // Minimum log level
-        format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.printf(({ timestamp, level, message }) => {
-                return `${timestamp} [${level}]: ${message}`;
-            })
-        ),
-        transports: [
-            new winston.transports.Console({ format: winston.format.simple() }), // Console log
-        ],
-    });
-};
-
 const apiRequestLogger = (appName) => {
-    const logger = createLogger();
     return async (req, res, next) => {
         const start = Date.now();
         const logDetails = {
@@ -65,16 +49,19 @@ const apiRequestLogger = (appName) => {
             const originalJson = res.json;
 
             let responseBody = null;
+
             res.send = (body) => {
                 responseBody = body;
                 res.setHeader("Content-Type", "application/json");
                 originalSend.call(res, body);
             };
+
             res.json = (body) => {
                 responseBody = body;
                 res.setHeader("Content-Type", "application/json");
                 originalJson.call(res, body);
             };
+
             res.on("finish", async () => {
                 const end = Date.now();
                 const responseTime = end - start;
@@ -88,7 +75,7 @@ const apiRequestLogger = (appName) => {
                 };
                 const responseLog = new Log(responseLogDetails);
                 await responseLog.save();
-                logger.info(`Response logged to MongoDB`);
+                console.log("Response logged to MongoDB");
             });
 
             next();
@@ -102,18 +89,16 @@ const apiRequestLogger = (appName) => {
                 responseTime,
                 error: error.message,
                 responseHeaders: res.getHeaders(),
-                requestBody: req.body,
-                requestHeaders: req.headers,
             };
             const errorLog = new Log(errorLogDetails);
             await errorLog.save();
-            logger.error(`Error logged to MongoDB: ${error.message}`);
+            console.error("Error logged to MongoDB:", error.message);
             next(error);
         }
     };
 };
+
 const logData = async (appName, level = "info", message, meta = {}) => {
-    const logger = createLogger();
     const logEntry = new Log({
         appName,
         level,
@@ -124,7 +109,7 @@ const logData = async (appName, level = "info", message, meta = {}) => {
 
     try {
         await logEntry.save();
-        logger.log(level, message);
+        console.log(`[${level.toUpperCase()}] ${message}`);
     } catch (error) {
         console.error("Error saving log to MongoDB:", error);
     }
