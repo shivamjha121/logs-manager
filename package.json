@@ -7,9 +7,30 @@
   "scripts": {
     "build": "rollup -c"
   },
-  "author": "",
+  "author": "Shivam Jha",
   "license": "ISC",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shivamjha121/logs-manager.git"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "logger",
+    "middleware",
+    "mongodb",
+    "winston",
+    "request",
+    "response",
+    "logs",
+    "nodejs",
+    "expressjs",
+    "winstonjs",
+    "api-logger",
+    "request-logger",
+    "response-logger"
+  ],
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.3",
@@ -26,5 +47,11 @@
       "import": "./dist/my-library.esm.js",
       "require": "./dist/my-library.cjs.js"
     }
-  }
+  },
+  "files": [
+  "dist",
+  "README.md",
+  "package.json"
+]
+
 }

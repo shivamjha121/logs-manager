@@ -1,0 +1,17 @@
+# Ignore source code
+src/
+rollup.config.js
+
+# Ignore test files
+test/
+__tests__/
+
+# Ignore configs & tooling
+*.config.js
+*.test.js
+.eslintrc
+.prettierrc
+.env
+
+# Optional: ignore maps if you don’t want source mapping
+*.map

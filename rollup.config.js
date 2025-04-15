@@ -10,12 +10,12 @@ export default {
     {
       file: 'dist/my-library.cjs.js',
       format: 'cjs',
-      sourcemap: true,
+      sourcemap: false,
     },
     {
       file: 'dist/my-library.esm.js',
       format: 'esm',
-      sourcemap: true,
+      sourcemap: false,
     },
   ],
   plugins: [
