@@ -1,6 +1,6 @@
 {
   "name": "@shivamjha1288/logs-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/my-library.cjs.js",
   "module": "dist/my-library.esm.js",
   "type": "module",
